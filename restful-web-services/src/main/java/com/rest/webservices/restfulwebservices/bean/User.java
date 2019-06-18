@@ -1,21 +1,31 @@
 package com.rest.webservices.restfulwebservices.bean;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
-
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
 @ApiModel(description="All details about the user")
-
-public class User {
+@Entity
+public class User implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue
 	private Integer id;
 	@Size(min=2, message = "Name should have atleast 2 character")
 	@ApiModelProperty(notes="Name should have atleast 2 character")
@@ -25,6 +35,9 @@ public class User {
 	private Date birthDate;
 	
 	private int age;
+	
+	@OneToMany(mappedBy="user")
+	private List<Post> posts;
 	
 	
 	
@@ -61,6 +74,12 @@ public class User {
 	}
 	public void setAge(int age) {
 		this.age = age;
+	}
+	public List<Post> getPosts() {
+		return posts;
+	}
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 	@Override
 	public String toString() {
